@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 /**
  * Contains and executes the animation.
@@ -21,19 +22,29 @@ class Animation {
             Point p = new Point();
             listOfPoints.add(p);
         }
+        listOfPoints.get(0).setColor(new Color(255-192, 255-57, 255-43));
+        listOfPoints.get(0).setSize(10);
     }
 
     /**
      * Move each point to its next location in the blast.
      */
     void incrementPoints () {
-        Point last = listOfPoints.get(listOfPoints.size()-1);
-        listOfPoints.get(0).action(last.getPos());
-        for (int i = 1; i < listOfPoints.size(); i++) {
-            //listOfPoints.get(i).increment();
-            Point prev = listOfPoints.get(i-1);
-            listOfPoints.get(i).action(prev.getPos());
+        /*for (int i = 0; i < listOfPoints.size(); i++) {
+            listOfPoints.get(i).goToRandomPoint(listOfPoints);
+        }*/
+        for (int i = 0; i < listOfPoints.size(); i++) {
+            listOfPoints.get(i).act1(getPointsNear(listOfPoints.get(i), 10));
         }
+    }
+
+    public ArrayList<Point> getPointsNear(Point p, double d) {
+        ArrayList<Point> nearPoints = new ArrayList<>();o
+        for (int i = 0; i < listOfPoints.size(); i++) {
+            Point po = listOfPoints.get(i);
+            if(po.getPos().distance(p.getPos()) < d && po != p) nearPoints.add(po);
+        }
+        return nearPoints;
     }
 
     void paint (Graphics g) {
@@ -44,9 +55,18 @@ class Animation {
 
         graphics.setColor(Properties.COLOR);
 
+        drawStatic(graphics);
+
         for (Point p : listOfPoints) {
-            graphics.fillOval(p.getX() - Properties.SIZE / 2, p.getY() - Properties.SIZE / 2, Properties.SIZE, Properties.SIZE);
+            graphics.setColor(p.getColor());
+            graphics.fillOval(p.getX() - p.getSize() / 2, p.getY() - p.getSize() / 2, p.getSize(), p.getSize());
         }
+    }
+
+    void drawStatic(Graphics2D graphics) {
+        int centerSize = 3;
+        graphics.setColor(Color.CYAN);
+        graphics.fillOval(Properties.WIDTH/2 - centerSize / 2, Properties.HEIGHT/2 - centerSize / 2, centerSize, centerSize);
     }
 
 }

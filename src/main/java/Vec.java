@@ -149,12 +149,22 @@ public class Vec {
         y *= d;
     }
 
+    public Vec times(double n) {
+        return new Vec(this.x * n, this.y * n);
+    }
+
+
     public double length() {
         return Math.sqrt(x*x+y*y);
     }
 
     public void normalize() {
         this.mul(1.0/length());
+    }
+
+    public void mod(double w, double h) {
+        x = x%w;
+        y = y%h;
     }
 
     /**
