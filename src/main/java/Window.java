@@ -22,6 +22,11 @@ public class Window extends JFrame {
     private double playSpeed = 1;
     private boolean play = true;
 
+    public static int panX = Properties.WIDTH/2;
+    public static int panY = Properties.HEIGHT/2;
+    public static int panSpeed = 5;
+    public static double zoom = 1;
+    
     private Window() {
         engine = createEngine();
         animation = new Animation();
@@ -196,6 +201,44 @@ public class Window extends JFrame {
                 restart();
             }
         });
+	
+        // CONTROLS
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "UP");
+	    getRootPane().getActionMap().put("UP", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.panY += panSpeed*zoom; }
+	    });
+	
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
+	    getRootPane().getActionMap().put("DOWN", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.panY -= panSpeed*zoom; }
+	    });
+	
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
+	    getRootPane().getActionMap().put("RIGHT", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.panX -= panSpeed*zoom; }
+	    });
+	
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
+	    getRootPane().getActionMap().put("LEFT", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.panX += panSpeed*zoom; }
+	    });
+	
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "ZOOM_IN");
+	    getRootPane().getActionMap().put("ZOOM_IN", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.zoom *= 1.25; }
+	    });
+	
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			    KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), "ZOOM_OUT");
+	    getRootPane().getActionMap().put("ZOOM_OUT", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) { Window.zoom /= 1.25; }
+	    });
+	    
     }
 
     public static void main (String[] args) {

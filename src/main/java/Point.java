@@ -15,7 +15,8 @@ class Point {
 
     // Logical
     private Point parent;
-
+	private double vision;
+    
     // Visual
     private Color color;
     private int size;
@@ -29,14 +30,20 @@ class Point {
 
         pos = new Vec(r.nextDouble() * Properties.WIDTH, r.nextDouble() * Properties.HEIGHT);
         //speed = new Vec(r.nextDouble() - 0.5, r.nextDouble() - 0.5);
-        lookAt(new Vec(Properties.WIDTH, Properties.HEIGHT));
+        lookAt(new Vec(Properties.WIDTH/2, Properties.HEIGHT/2));
 
+        vision = 10;
         color = new Color(236, 240, 241);
         size = 2;
     }
 
     void move() {
-        pos.add(speed);
+        if(pos.x < 5 && speed.x < 0) speed.x = 0;
+	    if(pos.x > Properties.WIDTH - 5 && speed.x > 0) speed.x = 0;
+	    if(pos.y < 5 && speed.y < 0) speed.y = 0;
+	    if(pos.y > Properties.HEIGHT - 5 && speed.y > 0) speed.y = 0;
+	
+	    pos.add(speed);
     }
 
     void increment () {
@@ -130,4 +137,8 @@ class Point {
     public void setSize(int size) {
         this.size = size;
     }
+	
+	public double getVision() {
+		return vision;
+	}
 }
